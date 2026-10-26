@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FANOMEZANTSOA Bassir Olivio — Portfolio</title>
+<meta name="description" content="Développeur IA (Claude) et web : projets personnels, captures et code source.">
+<style>
+  :root {
+    --fond: #f6f7fa; --carte: #ffffff; --texte: #1d2330; --doux: #55607a; --bord: #dfe4ec;
+    --marine: #17304f; --accent: #2f6fde; --accent-doux: #e8effc; --code: #eef1f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fond: #0f1622; --carte: #172131; --texte: #e6eaf1; --doux: #9aa6bb; --bord: #26324a;
+      --marine: #c9d6ea; --accent: #6d9cf0; --accent-doux: #1c2c49; --code: #1d293d; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fond); color: var(--texte);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--accent); }
+  .page { max-width: 1040px; margin: 0 auto; padding: 0 20px 64px; }
+
+  header.haut { background: #17304f; color: #fff; }
+  header.haut .page { padding-top: 56px; padding-bottom: 44px; }
+  header.haut h1 { margin: 0; font-size: clamp(28px, 5vw, 42px); line-height: 1.1; letter-spacing: -0.5px; }
+  header.haut .titre { margin: 8px 0 18px; color: #9fc0ff; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; }
+  header.haut p.intro { max-width: 680px; margin: 0 0 24px; color: #d6deeb; font-size: 17px; }
+  .liens { display: flex; flex-wrap: wrap; gap: 10px; }
+  .liens a { color: #fff; text-decoration: none; border: 1px solid #4a6489; border-radius: 999px; padding: 7px 14px; font-size: 14px; }
+  .liens a:hover { border-color: #9fc0ff; }
+
+  nav.sommaire { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 18px 0 6px; font-size: 14px; }
+  nav.sommaire a { color: var(--doux); text-decoration: none; }
+  nav.sommaire a:hover { color: var(--accent); }
+
+  section { margin-top: 44px; }
+  section > h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0 0 4px; }
+  section > p.chapeau { margin: 0 0 20px; color: var(--doux); }
+
+  .projet { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 26px; margin-bottom: 20px; }
+  .projet h3 { margin: 0 0 4px; font-size: 22px; color: var(--marine); }
+  .projet .meta { color: var(--doux); font-size: 14px; margin-bottom: 14px; }
+  .projet p { margin: 0 0 12px; }
+  .projet ul { margin: 0 0 14px; padding-left: 20px; }
+  .projet li { margin-bottom: 4px; }
+  .pile { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; padding: 0; list-style: none; }
+  .pile li { background: var(--accent-doux); color: var(--accent); border-radius: 6px; padding: 2px 9px; font-size: 13px; margin: 0; }
+  .bouton { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 600; }
+  .note { font-size: 14px; color: var(--doux); border-left: 3px solid var(--bord); padding-left: 12px; }
+
+  .galerie { display: grid; grid-template-columns: 3fr 1fr; gap: 14px; margin: 6px 0 18px; align-items: start; }
+  .galerie img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--bord); }
+  .galerie figure { margin: 0; }
+  .galerie figcaption { font-size: 13px; color: var(--doux); margin-top: 6px; }
+
+  .schema { background: var(--code); border-radius: 10px; padding: 16px; margin: 6px 0 18px; overflow-x: auto; }
+  .schema svg { display: block; min-width: 640px; width: 100%; height: auto; }
+  .schema text { font: 13px system-ui, sans-serif; fill: var(--texte); }
+  .schema .boite { fill: var(--carte); stroke: var(--bord); }
+  .schema .boite-accent { fill: var(--accent-doux); stroke: var(--accent); }
+  .schema .fleche { stroke: var(--doux); stroke-width: 1.6; fill: none; marker-end: url(#pointe); }
+  .schema .retour { stroke: var(--accent); stroke-dasharray: 5 4; }
+  .schema .petit { font-size: 11.5px; fill: var(--doux); }
+
+  .grille { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .grille .projet { margin: 0; padding: 22px; }
+  .grille h3 { font-size: 18px; }
+
+  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--bord); color: var(--doux); font-size: 14px; }
+
+  @media (max-width: 760px) {
+    .galerie, .grille { grid-template-columns: 1fr; }
+    .galerie figure.mobile { max-width: 260px; }
+    .projet { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<header class="haut">
+  <div class="page">
+    <h1>FANOMEZANTSOA Bassir Olivio</h1>
+    <p class="titre">Développeur IA (Claude) &amp; Web · Antananarivo</p>
+    <p class="intro">Je fais de Claude un outil de travail : skills, connecteurs MCP, automatisations, et je construis les applications web qui vont avec. Voici une sélection de mes projets personnels, avec leur code.</p>
+    <div class="liens">
+      <a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a>
+      <a href="https://www.linkedin.com/in/olivio-fanomezantsoa-8a3559315/">LinkedIn</a>
+      <a href="https://github.com/DiabloBsr">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+  <nav class="sommaire">
+    <a href="#ia">IA avec Claude</a>
+    <a href="#donnees">Données et organisation</a>
+    <a href="#web">Applications web</a>
+    <a href="#autres">Autres projets</a>
+  </nav>
+
+  <section id="ia">
+    <h2>IA avec Claude</h2>
+    <p class="chapeau">Brancher Claude sur le travail réel, pour gagner du temps sans perdre en qualité.</p>
+
+    <article class="projet">
+      <h3>Claude Voix — discuter librement avec Claude Code</h3>
+      <div class="meta">Projet personnel · octobre 2026</div>
+      <p>Un mode conversation avec Claude Code : je parle, Claude répond à voix haute, et l'on peut débattre d'une idée ou avancer sur le travail sans clavier ni écran.</p>
+      <div class="schema" role="img" aria-label="Je dicte à Claude Code ; à la fin de chaque réponse, un hook la fait réécrire pour l'oreille par Claude Haiku, puis une voix neuronale la lit ; la lecture se met en pause dès que le micro est utilisé.">
+        <svg viewBox="0 0 900 190" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a96ab"/></marker></defs>
+          <rect class="boite" x="10" y="40" width="130" height="64" rx="10"/>
+          <text x="75" y="68" text-anchor="middle">Je parle</text>
+          <text class="petit" x="75" y="88" text-anchor="middle">dictée au micro</text>
+          <path class="fleche" d="M140 72 H180"/>
+          <rect class="boite" x="182" y="40" width="140" height="64" rx="10"/>
+          <text x="252" y="68" text-anchor="middle">Claude Code</text>
+          <text class="petit" x="252" y="88" text-anchor="middle">travaille et répond</text>
+          <path class="fleche" d="M322 72 H362"/>
+          <rect class="boite-accent" x="364" y="40" width="170" height="64" rx="10"/>
+          <text x="449" y="64" text-anchor="middle">Hook « Stop »</text>
+          <text class="petit" x="449" y="82" text-anchor="middle">Claude Haiku réécrit</text>
+          <text class="petit" x="449" y="97" text-anchor="middle">la réponse pour l'oreille</text>
+          <path class="fleche" d="M534 72 H574"/>
+          <rect class="boite" x="576" y="40" width="150" height="64" rx="10"/>
+          <text x="651" y="68" text-anchor="middle">Voix neuronale</text>
+          <text class="petit" x="651" y="88" text-anchor="middle">file d'attente unique</text>
+          <path class="fleche" d="M726 72 H766"/>
+          <rect class="boite" x="768" y="40" width="122" height="64" rx="10"/>
+          <text x="829" y="68" text-anchor="middle">J'écoute</text>
+          <text class="petit" x="829" y="88" text-anchor="middle">et je réponds</text>
+          <path class="fleche retour" d="M829 104 V150 H75 V106"/>
+          <text class="petit" x="452" y="170" text-anchor="middle">Dès qu'une application utilise le micro, la voix se tait, puis reprend deux secondes après.</text>
+        </svg>
+      </div>
+      <ul>
+        <li>Chaque réponse est réécrite en phrases parlées : tableaux expliqués, commandes décrites, jamais épelées.</li>
+        <li>Le lecteur interroge le son de Windows pour savoir si une application enregistre le micro : pas de voix pendant une dictée.</li>
+        <li>Trois voix de secours en cascade, et un journal qui dit pourquoi une lecture a échoué.</li>
+      </ul>
+      <ul class="pile"><li>Hooks Claude Code</li><li>Claude Haiku</li><li>PowerShell</li><li>Python</li><li>Core Audio</li></ul>
+      <a class="bouton" href="https://github.com/DiabloBsr/lecture-vocale-claude-code">Voir le code</a>
+    </article>
+
+    <article class="projet">
+      <h3>Connecteur MCP piloté à la voix</h3>
+      <div class="meta">Réalisé chez Agentova · 2026</div>
+      <p>Un serveur MCP d'une vingtaine d'outils (tâches, code, git, prise de notes) qui permet de piloter son travail à la voix depuis Claude.</p>
+      <p class="note">Le code appartient à Agentova : je le présente volontiers en entretien.</p>
+      <ul class="pile"><li>MCP</li><li>Claude</li></ul>
+    </article>
+  </section>
+
+  <section id="donnees">
+    <h2>Données et organisation</h2>
+    <p class="chapeau">Structurer l'information pour qu'une équipe s'en serve vraiment.</p>
+
+    <article class="projet">
+      <h3>Collecte — carnet de terrain numérique</h3>
+      <div class="meta">Projet personnel · août 2026</div>
+      <p>Une application pour composer un questionnaire, collecter les réponses sur le terrain même sans réseau, puis les analyser et les exporter.</p>
+      <div class="galerie">
+        <figure><img src="images/collecte-2-donnees.jpg" alt="Tableau de bord de Collecte : 42 réponses sur 60, courbe des réponses par jour, boutons d'export Excel, CSV et JSON"><figcaption>Tableau de bord d'une enquête fictive : objectif, réponses par jour, exports.</figcaption></figure>
+        <figure class="mobile"><img src="images/collecte-3-formulaire-mobile.jpg" alt="Formulaire de Collecte sur téléphone"><figcaption>Saisie sur téléphone.</figcaption></figure>
+      </div>
+      <ul>
+        <li>Questions à réponse libre, choix unique, choix multiples ou nombre, séparées entre fiche du répondant et questionnaire.</li>
+        <li>Hors ligne d'abord : tout est gardé sur l'appareil, puis synchronisé avec Supabase quand le réseau revient.</li>
+        <li>Rapport, exports Excel, CSV (compatible Excel français) et JSON.</li>
+      </ul>
+      <ul class="pile"><li>React</li><li>TypeScript</li><li>Vite</li><li>Supabase</li><li>PWA</li></ul>
+      <a class="bouton" href="https://github.com/DiabloBsr/collecte">Voir le code</a>
+    </article>
+  </section>
+
+  <section id="web">
+    <h2>Applications web</h2>
+    <p class="chapeau">Des applications complètes, en production ou utilisées chaque semaine.</p>
+
+    <article class="projet">
+      <h3>Facturation freelance</h3>
+      <div class="meta">Projet personnel · en production depuis août 2026</div>
+      <p>Ma propre application de facturation, pensée pour un freelance à Madagascar et paramétrable pour n'importe quel pays.</p>
+      <ul>
+        <li>Devis, factures, acomptes, avoirs, abonnements, suivi du temps passé et relances d'impayés.</li>
+        <li>Identifiants NIF, STAT et RCS, RIB malgache et Mobile Money, montants en Ariary et en toutes lettres.</li>
+        <li>Facture électronique Factur-X (norme EN 16931), double authentification, accès réservé au propriétaire.</li>
+      </ul>
+      <ul class="pile"><li>Next.js</li><li>TypeScript</li><li>Prisma</li><li>PostgreSQL (Neon)</li><li>Vercel</li></ul>
+      <a class="bouton" href="https://github.com/DiabloBsr/facturation-freelance">Voir le code</a>
+      <p class="note" style="margin-top:14px">L'application en ligne contient de vraies factures : elle n'est donc pas montrée ici. Le dépôt publié est une copie sans données réelles.</p>
+    </article>
+
+    <article class="projet">
+      <h3>Domino's Clan — jouer entre amis, au micro</h3>
+      <div class="meta">Projet personnel · août 2026 · 90 commits</div>
+      <p>Une plateforme de jeux en temps réel pour se retrouver entre amis : dominos, échecs blitz et Ludo, avec salons, spectateurs, file d'attente et voix.</p>
+      <div class="galerie">
+        <figure><img src="images/dominos-clan-3-partie.jpg" alt="Une partie de dominos à trois joueurs fictifs, avec la main du joueur et un quatrième en file d'attente"><figcaption>Une partie à trois, un quatrième joueur dans la file.</figcaption></figure>
+        <figure class="mobile"><img src="images/dominos-clan-4-partie-mobile.jpg" alt="La même partie vue depuis un téléphone"><figcaption>La même partie sur téléphone.</figcaption></figure>
+      </div>
+      <ul>
+        <li>Le serveur arbitre tout : distribution, tours, pendules des échecs, dé du Ludo. Aucun joueur ne peut tricher depuis son navigateur.</li>
+        <li>Reprise de session, amis et invitations, réactions et chat, voix ciblée.</li>
+        <li>Moteur de jeu séparé et testé, dans un monorepo client, serveur et moteur.</li>
+      </ul>
+      <ul class="pile"><li>React</li><li>TypeScript</li><li>Socket.io</li><li>LiveKit</li><li>chess.js</li><li>Docker</li></ul>
+      <a class="bouton" href="https://github.com/DiabloBsr/dominos-clan">Voir le code</a>
+    </article>
+  </section>
+
+  <section id="autres">
+    <h2>Autres projets</h2>
+    <p class="chapeau">Sécurité des données, cartographie et IA appliquée.</p>
+    <div class="grille">
+      <article class="projet">
+        <h3>Secure Chat</h3>
+        <div class="meta">Projet personnel · mai 2026</div>
+        <p>Messagerie chiffrée de bout en bout : chaque utilisateur a une paire de clés ECDH P-256, les messages sont chiffrés en AES-GCM 256, et la clé privée est protégée par PBKDF2 (600 000 itérations). Le serveur ne voit jamais un message en clair.</p>
+        <ul class="pile"><li>Next.js</li><li>Supabase</li><li>WebCrypto</li></ul>
+        <a href="https://github.com/DiabloBsr/secure_chat">Voir le code</a>
+      </article>
+      <article class="projet">
+        <h3>MadaGaskar — Village Virtuel</h3>
+        <div class="meta">Projet personnel · janvier 2026</div>
+        <p>Plateforme collaborative pour faire connaître les villages de Madagascar : carte interactive, histoires, légendes et sites, contributions publiées après validation.</p>
+        <ul class="pile"><li>Django REST</li><li>React</li><li>Leaflet</li></ul>
+        <a href="https://github.com/DiabloBsr/MadaGaskar">Voir le code</a>
+      </article>
+      <article class="projet">
+        <h3>HUJRA — gestion du personnel</h3>
+        <div class="meta">Projet de formation · septembre 2025</div>
+        <p>API de gestion du personnel avec comptes bancaires chiffrés, double authentification par QR code et application Flutter.</p>
+        <ul class="pile"><li>Django REST</li><li>Flutter</li><li>Fernet</li><li>TOTP</li></ul>
+        <a href="https://github.com/DiabloBsr/HUJRA">Voir le code</a>
+      </article>
+      <article class="projet">
+        <h3>Raycash</h3>
+        <div class="meta">Projet de groupe</div>
+        <p>Application mobile qui reconnaît en temps réel les déchets recyclables à la caméra.</p>
+        <ul class="pile"><li>Vision par ordinateur</li><li>Mobile</li></ul>
+        <a href="https://github.com/tsi23tohaina/raycash">Voir le code</a>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    FANOMEZANTSOA Bassir Olivio · <a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a> · Antananarivo, Madagascar
+  </footer>
+</div>
+</body>
+</html>
