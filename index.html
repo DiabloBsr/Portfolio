@@ -2,251 +2,487 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>FANOMEZANTSOA Bassir Olivio — Portfolio</title>
-<meta name="description" content="Développeur IA (Claude) et web : projets personnels, captures et code source.">
+<meta name="description" content="Développeur IA (Claude) et web à Antananarivo : projets personnels, captures et code source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
-  :root {
-    --fond: #f6f7fa; --carte: #ffffff; --texte: #1d2330; --doux: #55607a; --bord: #dfe4ec;
-    --marine: #17304f; --accent: #2f6fde; --accent-doux: #e8effc; --code: #eef1f6;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --fond: #0f1622; --carte: #172131; --texte: #e6eaf1; --doux: #9aa6bb; --bord: #26324a;
-      --marine: #c9d6ea; --accent: #6d9cf0; --accent-doux: #1c2c49; --code: #1d293d; }
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: var(--fond); color: var(--texte);
-    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  a { color: var(--accent); }
-  .page { max-width: 1040px; margin: 0 auto; padding: 0 20px 64px; }
+/* Direction « console Claude » : un terminal sombre, des projets ouverts comme des fichiers, un accent orange. */
+:root {
+  color-scheme: dark;
+  --fond: #0f1012; --fond-2: #141518; --carte: #17181b; --ligne: #2a2c31; --texte: #e7e6e2; --doux: #9a9ea6; --faible: #6c7079;
+  --accent: #e3895a; --accent-doux: #3a2418; --vert: #7fc28a;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  --corps: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--fond); color: var(--texte); font: 16px/1.6 var(--corps); overflow-x: hidden; }
+a { color: var(--accent); }
+::selection { background: var(--accent); color: var(--fond); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.page { max-width: 1080px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
 
-  header.haut { background: #17304f; color: #fff; }
-  header.haut .page { padding-top: 56px; padding-bottom: 44px; }
-  header.haut h1 { margin: 0; font-size: clamp(28px, 5vw, 42px); line-height: 1.1; letter-spacing: -0.5px; }
-  header.haut .titre { margin: 8px 0 18px; color: #9fc0ff; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; }
-  header.haut p.intro { max-width: 680px; margin: 0 0 24px; color: #d6deeb; font-size: 17px; }
-  .liens { display: flex; flex-wrap: wrap; gap: 10px; }
-  .liens a { color: #fff; text-decoration: none; border: 1px solid #4a6489; border-radius: 999px; padding: 7px 14px; font-size: 14px; }
-  .liens a:hover { border-color: #9fc0ff; }
+/* Barre de progression et halo */
+.progression { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 30; pointer-events: none; }
+.progression span { display: block; height: 100%; width: 0; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+.halo { position: fixed; left: 0; top: 0; width: 520px; height: 520px; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(227, 137, 90, .12), transparent 65%); transform: translate(-50%, -50%); opacity: 0; transition: opacity .4s; }
+body.souris .halo { opacity: 1; }
+main, header, footer, nav { position: relative; z-index: 1; }
 
-  nav.sommaire { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 18px 0 6px; font-size: 14px; }
-  nav.sommaire a { color: var(--doux); text-decoration: none; }
-  nav.sommaire a:hover { color: var(--accent); }
+/* En-tête */
+.entete { padding-block: 72px 36px; }
+.invite { font: 15px var(--mono); color: var(--faible); margin: 0 0 22px; }
+.invite b { color: var(--vert); font-weight: 500; }
+.invite .tape { color: var(--texte); }
+.curseur { display: inline-block; width: 9px; height: 18px; background: var(--accent); vertical-align: -3px; margin-left: 2px; animation: clignote 1.05s steps(1) infinite; }
+@keyframes clignote { 50% { opacity: 0; } }
+h1 { margin: 0; font: 700 clamp(30px, 6vw, 60px)/1.04 var(--mono); letter-spacing: -1.5px; text-wrap: balance; }
+h1 span { display: block; color: var(--doux); font-weight: 500; }
+.role { margin: 14px 0 0; font: 500 14px var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+.defile { margin: 22px 0 0; font-size: clamp(18px, 2.4vw, 22px); color: var(--doux); }
+.mots { display: inline-grid; vertical-align: bottom; height: 1.5em; overflow: hidden; color: var(--texte); font: 600 1em var(--mono); }
+.mots span { grid-area: 1 / 1; animation: mot 12s infinite; opacity: 0; }
+.mots span:nth-child(2) { animation-delay: 3s; } .mots span:nth-child(3) { animation-delay: 6s; } .mots span:nth-child(4) { animation-delay: 9s; }
+@keyframes mot { 0% { opacity: 0; transform: translateY(80%); } 3%, 22% { opacity: 1; transform: none; } 25%, 100% { opacity: 0; transform: translateY(-80%); } }
+.intro { max-width: 62ch; margin: 18px 0 0; color: var(--doux); }
+.liens { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.liens a { font: 500 14px var(--mono); color: var(--texte); text-decoration: none; border: 1px solid var(--ligne); background: var(--fond-2); border-radius: 6px; padding: 8px 13px; transition: border-color .2s, color .2s; }
+.liens a:hover { border-color: var(--accent); color: var(--accent); }
+.chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 40px; }
+.chiffres div { background: var(--carte); border: 1px solid var(--ligne); border-radius: 8px; padding: 18px; }
+.chiffres b { display: block; font: 700 clamp(30px, 4vw, 40px)/1 var(--mono); font-variant-numeric: tabular-nums; }
+.chiffres span { display: block; margin-top: 8px; font-size: 14px; color: var(--doux); }
 
-  section { margin-top: 44px; }
-  section > h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0 0 4px; }
-  section > p.chapeau { margin: 0 0 20px; color: var(--doux); }
+/* Navigation collante */
+.sommaire { position: sticky; top: 0; z-index: 20; background: rgba(15, 16, 18, .86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--ligne); padding-top: env(safe-area-inset-top, 0px); }
+.sommaire .page { display: flex; gap: 4px 20px; overflow-x: auto; scrollbar-width: none; padding-block: 12px; }
+.sommaire a { font: 13px var(--mono); color: var(--faible); text-decoration: none; white-space: nowrap; }
+.sommaire a::before { content: "./"; color: var(--ligne); }
+.sommaire a.actif, .sommaire a:hover { color: var(--accent); }
 
-  .projet { background: var(--carte); border: 1px solid var(--bord); border-radius: 14px; padding: 26px; margin-bottom: 20px; }
-  .projet h3 { margin: 0 0 4px; font-size: 22px; color: var(--marine); }
-  .projet .meta { color: var(--doux); font-size: 14px; margin-bottom: 14px; }
-  .projet p { margin: 0 0 12px; }
-  .projet ul { margin: 0 0 14px; padding-left: 20px; }
-  .projet li { margin-bottom: 4px; }
-  .pile { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; padding: 0; list-style: none; }
-  .pile li { background: var(--accent-doux); color: var(--accent); border-radius: 6px; padding: 2px 9px; font-size: 13px; margin: 0; }
-  .bouton { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 600; }
-  .note { font-size: 14px; color: var(--doux); border-left: 3px solid var(--bord); padding-left: 12px; }
+/* Sections et fichiers */
+section { padding-top: 64px; scroll-margin-top: 50px; }
+.titre-section { margin: 0 0 6px; font: 600 15px var(--mono); color: var(--texte); }
+.titre-section::before { content: "$ "; color: var(--vert); }
+.chapeau { margin: 0 0 20px; color: var(--doux); max-width: 64ch; }
+.fichier { background: var(--carte); border: 1px solid var(--ligne); border-radius: 10px; margin-bottom: 20px; overflow: hidden; transition: transform .25s ease, border-color .25s; transform-style: preserve-3d; }
+.fichier:hover { border-color: #3a3d44; }
+.onglet { display: flex; align-items: center; gap: 10px; padding: 9px 14px; background: var(--fond-2); border-bottom: 1px solid var(--ligne); font: 13px var(--mono); color: var(--doux); }
+.onglet::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #ff5f57; box-shadow: 15px 0 #febc2e, 30px 0 #28c840; margin-right: 34px; flex: none; }
+.onglet .statut { margin-left: auto; color: var(--faible); }
+.corps { padding: 24px; }
+.corps h3 { margin: 0 0 4px; font: 600 clamp(19px, 2.4vw, 23px)/1.25 var(--mono); text-wrap: balance; }
+.meta { margin: 0 0 14px; font: 13px var(--mono); color: var(--faible); }
+.corps p { margin: 0 0 12px; max-width: 70ch; }
+.corps ul.points { margin: 0 0 14px; padding-left: 0; list-style: none; }
+.corps ul.points li { position: relative; padding-left: 20px; margin-bottom: 6px; color: #d3d2ce; }
+.corps ul.points li::before { content: "›"; position: absolute; left: 4px; color: var(--accent); font-family: var(--mono); }
+.pile { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 14px 0 18px; }
+.pile li { font: 12.5px var(--mono); color: var(--doux); border: 1px solid var(--ligne); border-radius: 4px; padding: 2px 8px; }
+.ouvrir { display: inline-block; font: 500 14px var(--mono); color: var(--fond); background: var(--accent); text-decoration: none; border-radius: 6px; padding: 9px 14px; transition: transform .15s; }
+.ouvrir:hover { transform: translateY(-1px); }
+.ouvrir::after { content: " ↗"; }
+.note { font-size: 14px; color: var(--doux); border-left: 2px solid var(--ligne); padding-left: 12px; margin-top: 16px; }
 
-  .galerie { display: grid; grid-template-columns: 3fr 1fr; gap: 14px; margin: 6px 0 18px; align-items: start; }
-  .galerie img { width: 100%; height: auto; display: block; border-radius: 10px; border: 1px solid var(--bord); }
-  .galerie figure { margin: 0; }
-  .galerie figcaption { font-size: 13px; color: var(--doux); margin-top: 6px; }
+/* Schéma animé de Claude Voix */
+.schema { margin: 10px 0 18px; overflow-x: auto; background: var(--fond); border: 1px solid var(--ligne); border-radius: 8px; padding: 14px; }
+.schema svg { display: block; min-width: 680px; width: 100%; height: auto; }
+.schema .n { fill: var(--carte); stroke: var(--ligne); }
+.schema .n-acc { fill: var(--accent-doux); stroke: var(--accent); }
+.schema text { fill: var(--texte); font: 13px var(--mono); }
+.schema .t2 { fill: var(--doux); font: 11.5px var(--corps); }
+.schema .lien { stroke: var(--accent); stroke-width: 2; fill: none; stroke-dasharray: 6 6; animation: coule 1.1s linear infinite; }
+@keyframes coule { to { stroke-dashoffset: -24; } }
+.onde rect { fill: var(--accent); transform-origin: center; transform-box: fill-box; animation: vibre 1.2s ease-in-out infinite; }
+.onde rect:nth-child(2) { animation-delay: .15s; } .onde rect:nth-child(3) { animation-delay: .3s; } .onde rect:nth-child(4) { animation-delay: .45s; } .onde rect:nth-child(5) { animation-delay: .6s; }
+@keyframes vibre { 50% { transform: scaleY(.3); } }
 
-  .schema { background: var(--code); border-radius: 10px; padding: 16px; margin: 6px 0 18px; overflow-x: auto; }
-  .schema svg { display: block; min-width: 640px; width: 100%; height: auto; }
-  .schema text { font: 13px system-ui, sans-serif; fill: var(--texte); }
-  .schema .boite { fill: var(--carte); stroke: var(--bord); }
-  .schema .boite-accent { fill: var(--accent-doux); stroke: var(--accent); }
-  .schema .fleche { stroke: var(--doux); stroke-width: 1.6; fill: none; marker-end: url(#pointe); }
-  .schema .retour { stroke: var(--accent); stroke-dasharray: 5 4; }
-  .schema .petit { font-size: 11.5px; fill: var(--doux); }
+/* Captures dans leurs cadres */
+.galerie { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: 16px; align-items: end; margin: 4px 0 18px; }
+.galerie figure { margin: 0; }
+.navigateur { position: relative; border: 1px solid var(--ligne); border-radius: 8px; overflow: hidden; background: #0b0c0e; padding-top: 26px; }
+.navigateur::before { content: ""; position: absolute; top: 9px; left: 12px; width: 8px; height: 8px; border-radius: 50%; background: #ff5f57; box-shadow: 14px 0 #febc2e, 28px 0 #28c840; }
+.telephone { border: 7px solid #24262b; border-radius: 26px; overflow: hidden; background: #000; }
+.galerie img { display: block; width: 100%; height: auto; max-width: 100%; cursor: zoom-in; transition: transform .4s ease; }
+.galerie img:hover { transform: scale(1.015); }
+.galerie figcaption { font: 12.5px var(--mono); color: var(--faible); margin-top: 7px; }
 
-  .grille { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .grille .projet { margin: 0; padding: 22px; }
-  .grille h3 { font-size: 18px; }
+/* Autres projets */
+.grille { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grille .fichier { margin: 0; }
+.grille .corps { padding: 20px; }
+.grille h3 { font-size: 18px; }
+.lien-code { font: 500 14px var(--mono); text-decoration: none; }
+.lien-code::after { content: " ↗"; }
 
-  footer { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--bord); color: var(--doux); font-size: 14px; }
+/* Activité : calendrier de contributions redessiné */
+.activite { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 26px; align-items: center; }
+.calendrier { overflow-x: auto; padding-bottom: 4px; min-width: 0; }
+.cases { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 16px); grid-auto-columns: 16px; gap: 4px; width: max-content; }
+.cases i { border-radius: 3px; background: #1d1f23; transition: background .35s ease, transform .35s ease; transition-delay: var(--d, 0s); }
+.cases i[data-n="1"] { background: #4a2c1d; } .cases i[data-n="2"] { background: #7a4326; }
+.cases i[data-n="3"] { background: #b8693e; } .cases i[data-n="4"] { background: #f09a68; }
+.calendrier.attente .cases i { background: #1d1f23; transform: scale(.6); }
+.mois { display: flex; gap: 0; font: 11px var(--mono); color: var(--faible); margin-bottom: 6px; width: max-content; }
+.legende-cases { display: flex; align-items: center; gap: 4px; font: 11.5px var(--mono); color: var(--faible); margin-top: 10px; }
+.legende-cases i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+.totaux { display: grid; gap: 14px; min-width: 210px; }
+.totaux b { display: block; font: 700 30px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.totaux span { font-size: 14px; color: var(--doux); }
 
-  @media (max-width: 760px) {
-    .galerie, .grille { grid-template-columns: 1fr; }
-    .galerie figure.mobile { max-width: 260px; }
-    .projet { padding: 20px; }
-  }
+/* Parcours façon git log */
+.journal { list-style: none; margin: 0; padding: 0; font-family: var(--mono); }
+.journal li { position: relative; padding: 0 0 26px 30px; }
+.journal li::before { content: ""; position: absolute; left: 6px; top: 7px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: var(--fond); }
+.journal li::after { content: ""; position: absolute; left: 11px; top: 21px; bottom: 0; width: 2px; background: var(--ligne); }
+.journal li:last-child::after { display: none; }
+.journal .hash { color: var(--accent); }
+.journal .quand { color: var(--faible); font-size: 13px; }
+.journal b { display: block; color: var(--texte); font-size: 16px; margin: 2px 0; }
+.journal span.desc { font: 15px var(--corps); color: var(--doux); }
+
+footer { margin-top: 72px; border-top: 1px solid var(--ligne); padding-block: 28px calc(40px + env(safe-area-inset-bottom, 0px)); font: 14px var(--mono); color: var(--doux); }
+footer p { margin: 0 0 8px; }
+footer .invite { margin: 0 0 10px; }
+
+/* Apparition au défilement : visible au repos, l'animation ne joue qu'une fois. */
+.apparait.vu { animation: monte .75s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes monte { from { opacity: .2; transform: translateY(22px); } }
+
+/* Zoom sur une capture */
+.zoom { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: rgba(6, 7, 9, .9); cursor: zoom-out;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); animation: fondu .2s ease; }
+.zoom img { max-width: 100%; max-height: 90vh; border-radius: 10px; border: 1px solid var(--ligne); }
+@keyframes fondu { from { opacity: 0; } }
+
+@media (max-width: 760px) {
+  .chiffres { grid-template-columns: 1fr; }
+  .galerie, .grille, .activite { grid-template-columns: 1fr; }
+  .galerie .telephone { max-width: 230px; }
+  .corps { padding: 20px; }
+  .entete { padding-top: 52px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .mots span { opacity: 1; }
+  .mots span:not(:first-child) { display: none; }
+  .halo { display: none; }
+}
 </style>
 </head>
 <body>
-<header class="haut">
-  <div class="page">
-    <h1>FANOMEZANTSOA Bassir Olivio</h1>
-    <p class="titre">Développeur IA (Claude) &amp; Web · Antananarivo</p>
-    <p class="intro">Je fais de Claude un outil de travail : skills, connecteurs MCP, automatisations, et je construis les applications web qui vont avec. Voici une sélection de mes projets personnels, avec leur code.</p>
-    <div class="liens">
-      <a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a>
-      <a href="https://www.linkedin.com/in/olivio-fanomezantsoa-8a3559315/">LinkedIn</a>
-      <a href="https://github.com/DiabloBsr">GitHub</a>
-    </div>
+<div class="progression" aria-hidden="true"><span id="barre"></span></div>
+<div class="halo" id="halo" aria-hidden="true"></div>
+
+<header class="entete page">
+  <p class="invite" aria-hidden="true"><b>olivio@antananarivo</b>:~/portfolio$ <span class="tape" id="tape">whoami</span><span class="curseur"></span></p>
+  <h1>FANOMEZANTSOA <span>Bassir Olivio</span></h1>
+  <p class="role">Développeur IA (Claude) &amp; Web · Antananarivo</p>
+  <p class="defile">Je construis avec <span class="mots" aria-label="Claude Code, des serveurs MCP, Next.js et l'automatisation"><span>Claude Code</span><span>des serveurs MCP</span><span>Next.js</span><span>l'automatisation</span></span></p>
+  <p class="intro">Je fais de Claude un outil de travail : skills, connecteurs MCP, automatisations. Et je construis les applications web qui vont avec. Voici une sélection de mes projets, avec leur code.</p>
+  <div class="liens">
+    <a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a>
+    <a href="https://www.linkedin.com/in/olivio-fanomezantsoa-8a3559315/">LinkedIn ↗</a>
+    <a href="https://github.com/DiabloBsr">GitHub ↗</a>
+  </div>
+  <div class="chiffres">
+    <div class="apparait"><b data-cible="231">231</b><span>PR fusionnées chez Agentova, en six mois</span></div>
+    <div class="apparait"><b data-cible="1869">1869</b><span>contributions GitHub sur un an</span></div>
+    <div class="apparait"><b data-cible="7">7</b><span>projets publics, avec leur code</span></div>
   </div>
 </header>
 
-<div class="page">
-  <nav class="sommaire">
-    <a href="#ia">IA avec Claude</a>
-    <a href="#donnees">Données et organisation</a>
-    <a href="#web">Applications web</a>
-    <a href="#autres">Autres projets</a>
-  </nav>
+<nav class="sommaire" aria-label="Sections">
+  <div class="page">
+    <a href="#ia">ia-avec-claude</a><a href="#donnees">donnees</a><a href="#web">applications-web</a><a href="#autres">autres-projets</a><a href="#activite">activite</a><a href="#parcours">parcours</a>
+  </div>
+</nav>
 
+<main class="page">
   <section id="ia">
-    <h2>IA avec Claude</h2>
+    <h2 class="titre-section">ls ia-avec-claude/</h2>
     <p class="chapeau">Brancher Claude sur le travail réel, pour gagner du temps sans perdre en qualité.</p>
-
-    <article class="projet">
-      <h3>Claude Voix — discuter librement avec Claude Code</h3>
-      <div class="meta">Projet personnel · octobre 2026</div>
-      <p>Un mode conversation avec Claude Code : je parle, Claude répond à voix haute, et l'on peut débattre d'une idée ou avancer sur le travail sans clavier ni écran.</p>
-      <div class="schema" role="img" aria-label="Je dicte à Claude Code ; à la fin de chaque réponse, un hook la fait réécrire pour l'oreille par Claude Haiku, puis une voix neuronale la lit ; la lecture se met en pause dès que le micro est utilisé.">
-        <svg viewBox="0 0 900 190" xmlns="http://www.w3.org/2000/svg">
-          <defs><marker id="pointe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a96ab"/></marker></defs>
-          <rect class="boite" x="10" y="40" width="130" height="64" rx="10"/>
-          <text x="75" y="68" text-anchor="middle">Je parle</text>
-          <text class="petit" x="75" y="88" text-anchor="middle">dictée au micro</text>
-          <path class="fleche" d="M140 72 H180"/>
-          <rect class="boite" x="182" y="40" width="140" height="64" rx="10"/>
-          <text x="252" y="68" text-anchor="middle">Claude Code</text>
-          <text class="petit" x="252" y="88" text-anchor="middle">travaille et répond</text>
-          <path class="fleche" d="M322 72 H362"/>
-          <rect class="boite-accent" x="364" y="40" width="170" height="64" rx="10"/>
-          <text x="449" y="64" text-anchor="middle">Hook « Stop »</text>
-          <text class="petit" x="449" y="82" text-anchor="middle">Claude Haiku réécrit</text>
-          <text class="petit" x="449" y="97" text-anchor="middle">la réponse pour l'oreille</text>
-          <path class="fleche" d="M534 72 H574"/>
-          <rect class="boite" x="576" y="40" width="150" height="64" rx="10"/>
-          <text x="651" y="68" text-anchor="middle">Voix neuronale</text>
-          <text class="petit" x="651" y="88" text-anchor="middle">file d'attente unique</text>
-          <path class="fleche" d="M726 72 H766"/>
-          <rect class="boite" x="768" y="40" width="122" height="64" rx="10"/>
-          <text x="829" y="68" text-anchor="middle">J'écoute</text>
-          <text class="petit" x="829" y="88" text-anchor="middle">et je réponds</text>
-          <path class="fleche retour" d="M829 104 V150 H75 V106"/>
-          <text class="petit" x="452" y="170" text-anchor="middle">Dès qu'une application utilise le micro, la voix se tait, puis reprend deux secondes après.</text>
-        </svg>
+    <article class="fichier apparait">
+      <div class="onglet">claude-voix.md <span class="statut">projet personnel</span></div>
+      <div class="corps">
+        <h3>Claude Voix, discuter librement avec Claude Code</h3>
+        <p class="meta">octobre 2026</p>
+        <p>Un mode conversation : je parle, Claude répond à voix haute, et l'on peut débattre d'une idée ou avancer sur le travail sans clavier ni écran.</p>
+        <div class="schema" role="img" aria-label="Je parle ; Claude Code répond avec ses outils MCP ; Claude Haiku réécrit la réponse pour l'oreille ; une voix neuronale la lit ; la boucle recommence, et la voix se tait dès que le micro est utilisé.">
+          <svg viewBox="0 0 900 170" xmlns="http://www.w3.org/2000/svg">
+            <rect class="n" x="10" y="36" width="140" height="62" rx="8"/><text x="80" y="62" text-anchor="middle">je parle</text><text class="t2" x="80" y="82" text-anchor="middle">dictée au micro</text>
+            <path class="lien" d="M150 67 H190"/>
+            <rect class="n" x="190" y="36" width="150" height="62" rx="8"/><text x="265" y="62" text-anchor="middle">claude code</text><text class="t2" x="265" y="82" text-anchor="middle">outils MCP, réponse</text>
+            <path class="lien" d="M340 67 H380"/>
+            <rect class="n-acc" x="380" y="36" width="170" height="62" rx="8"/><text x="465" y="60" text-anchor="middle">claude haiku</text><text class="t2" x="465" y="80" text-anchor="middle">réécrit pour l'oreille</text>
+            <path class="lien" d="M550 67 H590"/>
+            <rect class="n" x="590" y="36" width="150" height="62" rx="8"/><text x="665" y="62" text-anchor="middle">voix neuronale</text><text class="t2" x="665" y="82" text-anchor="middle">lit la réponse</text>
+            <g class="onde"><rect x="770" y="47" width="8" height="40" rx="4"/><rect x="786" y="40" width="8" height="54" rx="4"/><rect x="802" y="50" width="8" height="34" rx="4"/><rect x="818" y="42" width="8" height="50" rx="4"/><rect x="834" y="52" width="8" height="30" rx="4"/></g>
+            <path class="lien" d="M806 98 V135 H80 V100"/>
+            <text class="t2" x="445" y="156" text-anchor="middle">Dès qu'une application utilise le micro, la voix se tait, puis reprend deux secondes après.</text>
+          </svg>
+        </div>
+        <ul class="points">
+          <li>Un connecteur MCP d'une vingtaine d'outils (tâches, code, git, prise de notes) pour piloter le travail à la voix.</li>
+          <li>Chaque réponse est réécrite en phrases parlées : tableaux expliqués, commandes décrites, jamais épelées.</li>
+          <li>Le lecteur interroge le son de Windows pour savoir si une application enregistre le micro : pas de voix pendant une dictée.</li>
+          <li>Trois voix de secours en cascade, et un journal qui dit pourquoi une lecture a échoué.</li>
+        </ul>
+        <ul class="pile"><li>Serveur MCP</li><li>Hooks Claude Code</li><li>Claude Haiku</li><li>PowerShell</li><li>Python</li><li>Core Audio</li></ul>
+        <a class="ouvrir" href="https://github.com/DiabloBsr/lecture-vocale-claude-code">voir le code</a>
       </div>
-      <ul>
-        <li>Chaque réponse est réécrite en phrases parlées : tableaux expliqués, commandes décrites, jamais épelées.</li>
-        <li>Le lecteur interroge le son de Windows pour savoir si une application enregistre le micro : pas de voix pendant une dictée.</li>
-        <li>Trois voix de secours en cascade, et un journal qui dit pourquoi une lecture a échoué.</li>
-      </ul>
-      <ul class="pile"><li>Hooks Claude Code</li><li>Claude Haiku</li><li>PowerShell</li><li>Python</li><li>Core Audio</li></ul>
-      <a class="bouton" href="https://github.com/DiabloBsr/lecture-vocale-claude-code">Voir le code</a>
-    </article>
-
-    <article class="projet">
-      <h3>Connecteur MCP piloté à la voix</h3>
-      <div class="meta">Réalisé chez Agentova · 2026</div>
-      <p>Un serveur MCP d'une vingtaine d'outils (tâches, code, git, prise de notes) qui permet de piloter son travail à la voix depuis Claude.</p>
-      <p class="note">Le code appartient à Agentova : je le présente volontiers en entretien.</p>
-      <ul class="pile"><li>MCP</li><li>Claude</li></ul>
     </article>
   </section>
 
   <section id="donnees">
-    <h2>Données et organisation</h2>
+    <h2 class="titre-section">ls donnees/</h2>
     <p class="chapeau">Structurer l'information pour qu'une équipe s'en serve vraiment.</p>
-
-    <article class="projet">
-      <h3>Collecte — carnet de terrain numérique</h3>
-      <div class="meta">Projet personnel · août 2026</div>
-      <p>Une application pour composer un questionnaire, collecter les réponses sur le terrain même sans réseau, puis les analyser et les exporter.</p>
-      <div class="galerie">
-        <figure><img src="images/collecte-2-donnees.jpg" alt="Tableau de bord de Collecte : 42 réponses sur 60, courbe des réponses par jour, boutons d'export Excel, CSV et JSON"><figcaption>Tableau de bord d'une enquête fictive : objectif, réponses par jour, exports.</figcaption></figure>
-        <figure class="mobile"><img src="images/collecte-3-formulaire-mobile.jpg" alt="Formulaire de Collecte sur téléphone"><figcaption>Saisie sur téléphone.</figcaption></figure>
+    <article class="fichier apparait">
+      <div class="onglet">collecte.tsx <span class="statut">projet personnel</span></div>
+      <div class="corps">
+        <h3>Collecte, carnet de terrain numérique</h3>
+        <p class="meta">août 2026</p>
+        <p>Composer un questionnaire, collecter les réponses sur le terrain même sans réseau, puis les analyser et les exporter.</p>
+        <div class="galerie">
+          <figure><div class="navigateur"><img src="images/collecte-2-donnees.jpg" alt="Tableau de bord de Collecte : 42 réponses sur 60, courbe des réponses par jour, exports Excel, CSV et JSON"></div><figcaption>Tableau de bord d'une enquête fictive.</figcaption></figure>
+          <figure><div class="telephone"><img src="images/collecte-3-formulaire-mobile.jpg" alt="Formulaire de Collecte sur téléphone"></div><figcaption>Saisie sur téléphone.</figcaption></figure>
+        </div>
+        <ul class="points">
+          <li>Questions à réponse libre, choix unique, choix multiples ou nombre, séparées entre fiche du répondant et questionnaire.</li>
+          <li>Hors ligne d'abord : tout est gardé sur l'appareil, puis synchronisé avec Supabase quand le réseau revient.</li>
+          <li>Rapport, exports Excel, CSV (compatible Excel français) et JSON.</li>
+        </ul>
+        <ul class="pile"><li>React</li><li>TypeScript</li><li>Vite</li><li>Supabase</li><li>PWA</li></ul>
+        <a class="ouvrir" href="https://github.com/DiabloBsr/collecte">voir le code</a>
       </div>
-      <ul>
-        <li>Questions à réponse libre, choix unique, choix multiples ou nombre, séparées entre fiche du répondant et questionnaire.</li>
-        <li>Hors ligne d'abord : tout est gardé sur l'appareil, puis synchronisé avec Supabase quand le réseau revient.</li>
-        <li>Rapport, exports Excel, CSV (compatible Excel français) et JSON.</li>
-      </ul>
-      <ul class="pile"><li>React</li><li>TypeScript</li><li>Vite</li><li>Supabase</li><li>PWA</li></ul>
-      <a class="bouton" href="https://github.com/DiabloBsr/collecte">Voir le code</a>
     </article>
   </section>
 
   <section id="web">
-    <h2>Applications web</h2>
+    <h2 class="titre-section">ls applications-web/</h2>
     <p class="chapeau">Des applications complètes, en production ou utilisées chaque semaine.</p>
-
-    <article class="projet">
-      <h3>Facturation freelance</h3>
-      <div class="meta">Projet personnel · en production depuis août 2026</div>
-      <p>Ma propre application de facturation, pensée pour un freelance à Madagascar et paramétrable pour n'importe quel pays.</p>
-      <ul>
-        <li>Devis, factures, acomptes, avoirs, abonnements, suivi du temps passé et relances d'impayés.</li>
-        <li>Identifiants NIF, STAT et RCS, RIB malgache et Mobile Money, montants en Ariary et en toutes lettres.</li>
-        <li>Facture électronique Factur-X (norme EN 16931), double authentification, accès réservé au propriétaire.</li>
-      </ul>
-      <ul class="pile"><li>Next.js</li><li>TypeScript</li><li>Prisma</li><li>PostgreSQL (Neon)</li><li>Vercel</li></ul>
-      <a class="bouton" href="https://github.com/DiabloBsr/facturation-freelance">Voir le code</a>
-      <p class="note" style="margin-top:14px">L'application en ligne contient de vraies factures : elle n'est donc pas montrée ici. Le dépôt publié est une copie sans données réelles.</p>
-    </article>
-
-    <article class="projet">
-      <h3>Domino's Clan — jouer entre amis, au micro</h3>
-      <div class="meta">Projet personnel · août 2026 · 90 commits</div>
-      <p>Une plateforme de jeux en temps réel pour se retrouver entre amis : dominos, échecs blitz et Ludo, avec salons, spectateurs, file d'attente et voix.</p>
-      <div class="galerie">
-        <figure><img src="images/dominos-clan-3-partie.jpg" alt="Une partie de dominos à trois joueurs fictifs, avec la main du joueur et un quatrième en file d'attente"><figcaption>Une partie à trois, un quatrième joueur dans la file.</figcaption></figure>
-        <figure class="mobile"><img src="images/dominos-clan-4-partie-mobile.jpg" alt="La même partie vue depuis un téléphone"><figcaption>La même partie sur téléphone.</figcaption></figure>
+    <article class="fichier apparait">
+      <div class="onglet">facturation-freelance <span class="statut">en production</span></div>
+      <div class="corps">
+        <h3>Facturation freelance</h3>
+        <p class="meta">depuis août 2026</p>
+        <p>Ma propre application de facturation, pensée pour un freelance à Madagascar et paramétrable pour n'importe quel pays.</p>
+        <ul class="points">
+          <li>Devis, factures, acomptes, avoirs, abonnements, suivi du temps passé et relances d'impayés.</li>
+          <li>Identifiants NIF, STAT et RCS, RIB malgache et Mobile Money, montants en Ariary et en toutes lettres.</li>
+          <li>Facture électronique Factur-X (norme EN 16931), double authentification, accès réservé au propriétaire.</li>
+        </ul>
+        <ul class="pile"><li>Next.js</li><li>TypeScript</li><li>Prisma</li><li>PostgreSQL</li><li>Vercel</li></ul>
+        <a class="ouvrir" href="https://github.com/DiabloBsr/facturation-freelance">voir le code</a>
+        <p class="note">L'application en ligne contient de vraies factures : elle n'est donc pas montrée ici. Le dépôt publié en est une copie sans données réelles.</p>
       </div>
-      <ul>
-        <li>Le serveur arbitre tout : distribution, tours, pendules des échecs, dé du Ludo. Aucun joueur ne peut tricher depuis son navigateur.</li>
-        <li>Reprise de session, amis et invitations, réactions et chat, voix ciblée.</li>
-        <li>Moteur de jeu séparé et testé, dans un monorepo client, serveur et moteur.</li>
-      </ul>
-      <ul class="pile"><li>React</li><li>TypeScript</li><li>Socket.io</li><li>LiveKit</li><li>chess.js</li><li>Docker</li></ul>
-      <a class="bouton" href="https://github.com/DiabloBsr/dominos-clan">Voir le code</a>
+    </article>
+    <article class="fichier apparait">
+      <div class="onglet">dominos-clan <span class="statut">90 commits</span></div>
+      <div class="corps">
+        <h3>Domino's Clan, jouer entre amis au micro</h3>
+        <p class="meta">août 2026</p>
+        <p>Une plateforme de jeux en temps réel pour se retrouver entre amis : dominos, échecs blitz et Ludo, avec salons, spectateurs, file d'attente et voix.</p>
+        <div class="galerie">
+          <figure><div class="navigateur"><img src="images/dominos-clan-3-partie.jpg" alt="Une partie de dominos entre trois joueurs fictifs, un quatrième en file d'attente"></div><figcaption>Une partie à trois, un quatrième dans la file.</figcaption></figure>
+          <figure><div class="telephone"><img src="images/dominos-clan-4-partie-mobile.jpg" alt="La même partie vue depuis un téléphone"></div><figcaption>La même partie sur téléphone.</figcaption></figure>
+        </div>
+        <ul class="points">
+          <li>Le serveur arbitre tout : distribution, tours, pendules des échecs, dé du Ludo. Aucun joueur ne peut tricher depuis son navigateur.</li>
+          <li>Reprise de session, amis et invitations, réactions et chat, voix ciblée.</li>
+          <li>Moteur de jeu séparé et testé, dans un monorepo client, serveur et moteur.</li>
+        </ul>
+        <ul class="pile"><li>React</li><li>TypeScript</li><li>Socket.io</li><li>LiveKit</li><li>chess.js</li><li>Docker</li></ul>
+        <a class="ouvrir" href="https://github.com/DiabloBsr/dominos-clan">voir le code</a>
+      </div>
     </article>
   </section>
 
   <section id="autres">
-    <h2>Autres projets</h2>
+    <h2 class="titre-section">ls autres-projets/</h2>
     <p class="chapeau">Sécurité des données, cartographie et IA appliquée.</p>
     <div class="grille">
-      <article class="projet">
-        <h3>Secure Chat</h3>
-        <div class="meta">Projet personnel · mai 2026</div>
-        <p>Messagerie chiffrée de bout en bout : chaque utilisateur a une paire de clés ECDH P-256, les messages sont chiffrés en AES-GCM 256, et la clé privée est protégée par PBKDF2 (600 000 itérations). Le serveur ne voit jamais un message en clair.</p>
-        <ul class="pile"><li>Next.js</li><li>Supabase</li><li>WebCrypto</li></ul>
-        <a href="https://github.com/DiabloBsr/secure_chat">Voir le code</a>
+      <article class="fichier apparait">
+        <div class="onglet">secure_chat</div>
+        <div class="corps">
+          <h3>Secure Chat</h3>
+          <p class="meta">mai 2026</p>
+          <p>Messagerie chiffrée de bout en bout : clés ECDH P-256, messages en AES-GCM 256, clé privée protégée par PBKDF2 (600 000 itérations). Le serveur ne voit jamais un message en clair.</p>
+          <ul class="pile"><li>Next.js</li><li>Supabase</li><li>WebCrypto</li></ul>
+          <a class="lien-code" href="https://github.com/DiabloBsr/secure_chat">voir le code</a>
+        </div>
       </article>
-      <article class="projet">
-        <h3>MadaGaskar — Village Virtuel</h3>
-        <div class="meta">Projet personnel · janvier 2026</div>
-        <p>Plateforme collaborative pour faire connaître les villages de Madagascar : carte interactive, histoires, légendes et sites, contributions publiées après validation.</p>
-        <ul class="pile"><li>Django REST</li><li>React</li><li>Leaflet</li></ul>
-        <a href="https://github.com/DiabloBsr/MadaGaskar">Voir le code</a>
+      <article class="fichier apparait">
+        <div class="onglet">MadaGaskar</div>
+        <div class="corps">
+          <h3>Village Virtuel</h3>
+          <p class="meta">janvier 2026</p>
+          <p>Plateforme collaborative pour faire connaître les villages de Madagascar : carte interactive, histoires, légendes et sites, contributions publiées après validation.</p>
+          <ul class="pile"><li>Django REST</li><li>React</li><li>Leaflet</li></ul>
+          <a class="lien-code" href="https://github.com/DiabloBsr/MadaGaskar">voir le code</a>
+        </div>
       </article>
-      <article class="projet">
-        <h3>HUJRA — gestion du personnel</h3>
-        <div class="meta">Projet de formation · septembre 2025</div>
-        <p>API de gestion du personnel avec comptes bancaires chiffrés, double authentification par QR code et application Flutter.</p>
-        <ul class="pile"><li>Django REST</li><li>Flutter</li><li>Fernet</li><li>TOTP</li></ul>
-        <a href="https://github.com/DiabloBsr/HUJRA">Voir le code</a>
+      <article class="fichier apparait">
+        <div class="onglet">HUJRA</div>
+        <div class="corps">
+          <h3>Gestion du personnel</h3>
+          <p class="meta">projet de formation · septembre 2025</p>
+          <p>API de gestion du personnel avec comptes bancaires chiffrés, double authentification par QR code et application Flutter.</p>
+          <ul class="pile"><li>Django REST</li><li>Flutter</li><li>Fernet</li><li>TOTP</li></ul>
+          <a class="lien-code" href="https://github.com/DiabloBsr/HUJRA">voir le code</a>
+        </div>
       </article>
-      <article class="projet">
-        <h3>Raycash</h3>
-        <div class="meta">Projet de groupe</div>
-        <p>Application mobile qui reconnaît en temps réel les déchets recyclables à la caméra.</p>
-        <ul class="pile"><li>Vision par ordinateur</li><li>Mobile</li></ul>
-        <a href="https://github.com/tsi23tohaina/raycash">Voir le code</a>
+      <article class="fichier apparait">
+        <div class="onglet">raycash</div>
+        <div class="corps">
+          <h3>Raycash</h3>
+          <p class="meta">projet de groupe</p>
+          <p>Application mobile qui reconnaît en temps réel les déchets recyclables à la caméra.</p>
+          <ul class="pile"><li>Vision par ordinateur</li><li>Mobile</li></ul>
+          <a class="lien-code" href="https://github.com/tsi23tohaina/raycash">voir le code</a>
+        </div>
       </article>
     </div>
   </section>
 
-  <footer>
-    FANOMEZANTSOA Bassir Olivio · <a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a> · Antananarivo, Madagascar
-  </footer>
-</div>
+  <section id="activite">
+    <h2 class="titre-section">git log --since="6 months"</h2>
+    <p class="chapeau">Mon activité GitHub chez Agentova. Le code est privé, mais le rythme se voit, de fin avril à aujourd'hui.</p>
+    <div class="fichier apparait">
+      <div class="onglet">contributions <span class="statut">compte professionnel</span></div>
+      <div class="corps activite">
+        <div class="calendrier attente" id="calendrier">
+          <div class="mois" id="mois" aria-hidden="true"></div>
+          <div class="cases" id="cases" role="img" aria-label="Calendrier de contributions : 1 869 contributions entre fin avril et fin octobre 2026"></div>
+          <div class="legende-cases" aria-hidden="true">moins <i style="background:#1d1f23"></i><i style="background:#4a2c1d"></i><i style="background:#7a4326"></i><i style="background:#b8693e"></i><i style="background:#f09a68"></i> plus</div>
+        </div>
+        <div class="totaux">
+          <div><b data-cible="1869">1869</b><span>contributions en un an</span></div>
+          <div><b data-cible="128">128</b><span>jours actifs</span></div>
+          <div><b data-cible="74">74</b><span>contributions en une seule journée, au plus</span></div>
+          <a class="lien-code" href="https://github.com/olivio-bassir">voir sur GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parcours">
+    <h2 class="titre-section">cat parcours.log</h2>
+    <p class="chapeau">Du plus récent au plus ancien.</p>
+    <ol class="journal apparait">
+      <li><span class="hash">a7f3c21</span> <span class="quand">mars 2026 – octobre 2026</span><b>Agentova · développeur web et créateur de contenus vidéo IA</b><span class="desc">Produit SaaS d'agents IA, et refonte Next.js de la plateforme d'un cabinet d'avocats qui traite des données de santé. 231 PR fusionnées.</span></li>
+      <li><span class="hash">4d9e0b8</span> <span class="quand">septembre 2025 – décembre 2025</span><b>Orange Business · automatisation et intégration IA</b><span class="desc">Traitement automatique des bons de commande : extraction par OCR, contrôles de cohérence, application de pilotage en Django et React.</span></li>
+      <li><span class="hash">1c62f5e</span> <span class="quand">2023 – 2025</span><b>Master professionnel en informatique</b><span class="desc">École Nationale d'Informatique, Université de Fianarantsoa.</span></li>
+      <li><span class="hash">0b1a9d4</span> <span class="quand">2020 – 2023</span><b>Licence professionnelle en informatique</b><span class="desc">École Nationale d'Informatique, Université de Fianarantsoa.</span></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="page">
+  <p class="invite"><b>olivio@antananarivo</b>:~/portfolio$ cat contact.txt</p>
+  <p><a href="mailto:oliviofanomezantsoa@gmail.com">oliviofanomezantsoa@gmail.com</a> · <a href="https://www.linkedin.com/in/olivio-fanomezantsoa-8a3559315/">LinkedIn</a> · <a href="https://github.com/DiabloBsr">GitHub</a></p>
+  <p>FANOMEZANTSOA Bassir Olivio · Antananarivo, Madagascar</p>
+</footer>
+
+<script>
+(() => {
+  const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Calendrier de contributions du compte professionnel, semaine par semaine, du dimanche au samedi.
+  const CONTRIB = { debut: "2026-04-19", semaines: [[0,0,0,0,0,0,0],[0,1,1,0,3,6,8],[5,1,6,2,0,3,0],[0,0,7,6,0,5,0],[1,13,9,0,0,0,0],[0,0,0,0,0,5,24],[32,49,43,67,16,21,40],[17,21,2,33,25,6,0],[6,17,2,0,41,32,0],[0,2,0,0,30,8,38],[40,3,0,0,5,10,10],[2,0,0,4,2,6,0],[0,2,0,2,0,3,0],[0,1,0,0,0,0,1],[1,0,1,11,20,5,25],[1,32,74,20,27,18,0],[1,23,9,1,0,0,0],[0,0,17,4,1,0,0],[0,4,10,20,8,18,4],[0,21,37,2,17,4,0],[14,3,0,8,15,64,36],[35,20,8,10,5,7,10],[0,10,7,5,40,20,3],[15,9,46,27,7,0,2],[9,0,23,8,18,10,6],[34,32,22,22,9,0,2],[2,17,11,8,16,12,0],[1,0]] };
+  const niveau = (n) => (n === 0 ? 0 : n <= 5 ? 1 : n <= 15 ? 2 : n <= 35 ? 3 : 4);
+  const jourMois = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" });
+  const moisCourt = new Intl.DateTimeFormat("fr-FR", { month: "short" });
+  const casesEl = document.getElementById("cases"), moisEl = document.getElementById("mois");
+  const depart = new Date(CONTRIB.debut + "T12:00:00");
+  let moisVu = -1;
+  CONTRIB.semaines.forEach((semaine, s) => {
+    const d0 = new Date(depart); d0.setDate(d0.getDate() + s * 7);
+    const m = document.createElement("span");
+    m.style.width = "20px"; m.style.whiteSpace = "nowrap"; m.style.overflow = "visible";
+    if (d0.getMonth() !== moisVu) { m.textContent = moisCourt.format(d0); moisVu = d0.getMonth(); }
+    moisEl.appendChild(m);
+    semaine.forEach((n, j) => {
+      const c = document.createElement("i"), d = new Date(d0); d.setDate(d.getDate() + j);
+      c.dataset.n = niveau(n); c.style.setProperty("--d", (s * 0.03 + j * 0.01).toFixed(2) + "s");
+      c.title = `${n} contribution${n > 1 ? "s" : ""} le ${jourMois.format(d)}`;
+      casesEl.appendChild(c);
+    });
+  });
+
+  // Compteurs : défilent quand ils apparaissent ; sans animation, ils restent à leur valeur finale.
+  const nombre = new Intl.NumberFormat("fr-FR");
+  document.querySelectorAll("[data-cible]").forEach((b) => (b.textContent = nombre.format(Number(b.dataset.cible))));
+  function compter(b) {
+    const cible = Number(b.dataset.cible);
+    if (calme) return;
+    const t0 = performance.now();
+    const pas = (t) => { const p = Math.min(1, (t - t0) / 1500); b.textContent = nombre.format(Math.round(cible * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(pas); };
+    requestAnimationFrame(pas);
+  }
+
+  // Apparition au défilement, compteurs et remplissage du calendrier.
+  const calendrier = document.getElementById("calendrier");
+  const obs = new IntersectionObserver((entrees) => entrees.forEach((e) => {
+    if (!e.isIntersecting) return;
+    if (!calme) e.target.classList.add("vu");
+    e.target.querySelectorAll("[data-cible]").forEach(compter);
+    if (e.target.contains(calendrier)) setTimeout(() => calendrier.classList.remove("attente"), calme ? 0 : 150);
+    obs.unobserve(e.target);
+  }), { threshold: 0.2 });
+  document.querySelectorAll(".apparait").forEach((el) => obs.observe(el));
+  if (calme) calendrier.classList.remove("attente");
+
+  // Commande tapée au clavier dans l'en-tête.
+  const tape = document.getElementById("tape");
+  if (!calme) {
+    const texte = tape.textContent; let i = 0; tape.textContent = "";
+    setTimeout(function suite() { tape.textContent = texte.slice(0, ++i); if (i < texte.length) setTimeout(suite, 110); }, 400);
+  }
+
+  // Barre de progression de lecture et section active dans le sommaire.
+  const barre = document.getElementById("barre");
+  const liens = [...document.querySelectorAll(".sommaire a")];
+  const sections = liens.map((a) => document.querySelector(a.getAttribute("href")));
+  function auDefilement() {
+    const h = document.documentElement;
+    barre.style.width = ((h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100).toFixed(1) + "%";
+    let actif = 0;
+    sections.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * 0.35) actif = i; });
+    liens.forEach((a, i) => a.classList.toggle("actif", i === actif && h.scrollTop > 200));
+  }
+  addEventListener("scroll", auDefilement, { passive: true }); auDefilement();
+
+  // Halo qui suit la souris, et cartes qui s'inclinent au survol (souris seulement).
+  const halo = document.getElementById("halo");
+  if (!calme && matchMedia("(pointer: fine)").matches) {
+    addEventListener("pointermove", (e) => { document.body.classList.add("souris"); halo.style.left = e.clientX + "px"; halo.style.top = e.clientY + "px"; }, { passive: true });
+    document.addEventListener("pointerleave", () => document.body.classList.remove("souris"));
+    document.querySelectorAll(".fichier").forEach((c) => {
+      c.addEventListener("pointermove", (e) => {
+        const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        c.style.transform = `perspective(1100px) rotateY(${(x * 4).toFixed(2)}deg) rotateX(${(-y * 4).toFixed(2)}deg)`;
+      });
+      c.addEventListener("pointerleave", () => (c.style.transform = ""));
+    });
+  }
+
+  // Zoom sur les captures (clic, puis clic ou Échap pour fermer).
+  document.querySelectorAll(".galerie img").forEach((img) => img.addEventListener("click", () => {
+    const z = document.createElement("div");
+    z.className = "zoom"; z.setAttribute("role", "dialog"); z.setAttribute("aria-label", img.alt); z.tabIndex = -1;
+    z.appendChild(img.cloneNode());
+    const fermer = () => { z.remove(); removeEventListener("keydown", touche); };
+    const touche = (e) => { if (e.key === "Escape") fermer(); };
+    z.addEventListener("click", fermer); addEventListener("keydown", touche);
+    document.body.appendChild(z); z.focus();
+  }));
+})();
+</script>
 </body>
 </html>
