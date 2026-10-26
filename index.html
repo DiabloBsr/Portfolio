@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>FANOMEZANTSOA Bassir Olivio — Portfolio</title>
 <meta name="description" content="Développeur IA (Claude) et web à Antananarivo : projets personnels, captures et code source.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
@@ -35,6 +37,7 @@ main, header, footer, nav { position: relative; z-index: 1; }
 
 /* En-tête */
 .entete { padding-block: 72px 36px; }
+.logo { display: block; width: 44px; height: 44px; margin-bottom: 26px; border-radius: 10px; }
 .invite { font: 15px var(--mono); color: var(--faible); margin: 0 0 22px; }
 .invite b { color: var(--vert); font-weight: 500; }
 .invite .tape { color: var(--texte); }
@@ -180,6 +183,7 @@ footer .invite { margin: 0 0 10px; }
 <div class="halo" id="halo" aria-hidden="true"></div>
 
 <header class="entete page">
+  <img class="logo" src="logo.svg" alt="" width="44" height="44">
   <p class="invite" aria-hidden="true"><b>olivio@antananarivo</b>:~/portfolio$ <span class="tape" id="tape">whoami</span><span class="curseur"></span></p>
   <h1>FANOMEZANTSOA <span>Bassir Olivio</span></h1>
   <p class="role">Développeur IA (Claude) &amp; Web · Antananarivo</p>
